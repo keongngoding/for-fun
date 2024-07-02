@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIIIII TAKUTNYEEEE!!!</title>
+    <!-- Link ke CSS Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Background halaman horor */
+        body {
+            background-color: #1b1b1b; /* Hitam gelap */
+            color: #e1e1e1; /* Putih pudar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Creepster', cursive; /* Font horor */
+        }
+        /* Container form dengan tema horor */
+        .form-container {
+            background-color: #333333; /* Abu-abu gelap */
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%; /* Lebar relatif */
+            max-width: 400px; /* Maksimum lebar */
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); /* Bayangan merah */
+            text-align: center;
+            border: 2px solid #ff0000; /* Border merah darah */
+        }
+        .form-container h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ff0000; /* Merah darah */
+        }
+        .form-container button {
+            margin-top: 20px;
+            background-color: #ff0000; /* Merah darah */
+            border: none;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #cc0000; /* Merah gelap */
+            transform: scale(1.05); /* Membesar sedikit saat dihover */
+        }
+        /* Styling untuk memastikan modal muncul di tengah dan memiliki tema horor */
+        .custom-modal {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #e1e1e1;
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            padding: 30px;
+            text-align: center;
+            max-width: 90%; /* Maksimum lebar */
+            width: 600px; /* Lebar absolut */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Sembunyikan secara default */
+            animation: fadeIn 1s forwards;
+        }
+        .custom-modal h5 {
+            font-size: 30px; /* Memperbesar ukuran font */
+            color: #ff0000;
+            margin-bottom: 20px;
+        }
+        .custom-modal p {
+            font-size: 22px; /* Memperbesar ukuran font */
+        }
+        .custom-modal .progress-bar {
+            background-color: #ff0000;
+            height: 20px;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .custom-modal.show {
+            display: block; /* Tampilkan modal */
+        }
+        /* Animasi untuk fade in dan fade out */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .fade-out {
+            animation: fadeOut 1s forwards;
+        }
+        /* Styling untuk gambar dalam modal */
+        #modalImage {
+            max-width: 100%;
+            max-height: 250px; /* Sesuaikan tinggi gambar sesuai kebutuhan */
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Responsiveness */
+        @media (min-width: 576px) {
+            /* Untuk layar berukuran tablet dan lebih besar */
+            .form-container {
+                max-width: 500px; /* Lebar maksimum yang lebih besar */
+            }
+        }
+
+        @media (min-width: 768px) {
+            /* Untuk layar berukuran tablet dan lebih besar */
+            .form-container {
+                max-width: 600px; /* Lebar maksimum yang lebih besar */
+            }
+        }
+
+        @media (min-width: 992px) {
+            /* Untuk layar berukuran desktop dan lebih besar */
+            .form-container {
+                max-width: 400px; /* Lebar maksimum yang lebih besar */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            /* Untuk layar berukuran desktop besar atau lebih besar */
+            .form-container {
+                max-width: 400px; /* Lebar maksimum yang lebih besar */
+            }
+        }
+    </style>
+    <!-- Link ke Google Fonts untuk font horor -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Masukkan Nama Anda</h1>
+        <div class="form-group">
+            <input type="text" id="nameInput" class="form-control" placeholder="Nama Anda" style="background-color: #1b1b1b; color: #e1e1e1;">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="checkName()">Cek</button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="customModal" class="custom-modal">
+        <h5 id="modalTitle">Proses...</h5>
+        <div id="progressContainer">
+            <p id="progressMessage">Menghitung: 0%</p>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+        <p id="resultMessage" style="display: none;"></p>
+        <center><img id="modalImage" src="assets/ghost-removebg-preview.png" alt="" style="display: none;"></center>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        function checkName() {
+            var name = document.getElementById('nameInput').value;
+
+            // Daftar hewan untuk dipilih secara acak
+            var animals = ["Monyet Kupang", "Ayam Geprek", "Rawa Rontek", "Orek Tempe", "Harimau Cibaduyut", "Tuyul Mulet", "Susu Yakult", "Buku Kosong", "Dodol Garut", "Ayam Jago", "Kumis Lele", "Kecoa Kacamata", "Monyet Sakti", "KOSONG", "Gorila Dribble", "Cicak Ngerap"];
+            
+            // Memilih hewan secara acak
+            var randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            
+            // Menampilkan modal
+            var modal = document.getElementById('customModal');
+            modal.classList.add('show');
+
+            // Mulai efek persentase
+            var progress = 0;
+            var progressBar = document.getElementById('progressBar');
+            var progressMessage = document.getElementById('progressMessage');
+            var resultMessage = document.getElementById('resultMessage');
+            var modalImage = document.getElementById('modalImage');
+            var interval = setInterval(function() {
+                progress += 5;
+                progressMessage.innerText = "Menghitung: " + progress + "%";
+                progressBar.style.width = progress + "%";
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Transisi ke pesan hasil
+                    setTimeout(function() {
+                        progressMessage.classList.add('fade-out');
+                        progressBar.classList.add('fade-out');
+                        setTimeout(function() {
+                            progressMessage.style.display = 'none';
+                            progressBar.style.display = 'none';
+                            resultMessage.innerHTML = "Halo " + name + ", kodam kamu adalah " + randomAnimal + "!";
+                            resultMessage.style.display = 'block';
+                            resultMessage.classList.add('fadeIn');
+                            document.getElementById('modalTitle').innerText = "Hasil";
+                            
+                            // Menampilkan gambar setelah hasil ditampilkan
+                            modalImage.style.display = 'block';
+                            modalImage.classList.add('flex');
+                        }, 1000); // Durasi animasi fade out
+                    }, 500); // Sedikit jeda sebelum menampilkan hasil akhir
+                }
+            }, 100); // Pembaruan setiap 100ms untuk efek persentase
+        }
+    </script>
+
+    <!-- Link ke JavaScript Bootstrap dan jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
